@@ -34,8 +34,8 @@ app.set('views', path.join(__dirname, 'resources/views'));
 // app.use(morgan('combined'));
 
 //Routes init
-routes(           app);
+routes(               app);
 
-              app.listen(port, () =>
+              app.listen(     port, () =>
                   console.log('App is listening at http://localhost:${port}'),
               );
