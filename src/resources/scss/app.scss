@@ -1,15 +1,10 @@
 @import '_variable';
 
-.test {
-    font-size: 1 rem;
-    background-color: red;
-    width: 100px;
+.card-courses-item {
+    margin-top: 16px;
 }
 
-h1 {
-    color: $red_color;
-}
-
-h2 {
-    color: green($color: #000000);
+p {
+    font-size : 16px;
+    font-weight: bold;
 }
