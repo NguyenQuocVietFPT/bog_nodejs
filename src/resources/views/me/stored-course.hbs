@@ -19,16 +19,17 @@
                 <td>{{this.createdAt}}</td>
                 <td>
                     <a class="btn btn-link" href="/courses/edit/{{this._id}}" role="button">Sửa</a>
-                    <a class="btn btn-link" href="#" role="button" data-toggle="modal" data-target="#delete-course-modal">Xóa</a>
+                    <a class="btn btn-link" href="#" role="button" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-course-modal">Xóa</a>
                 </td>
             </tr>
             {{/each}}
         </tbody>
     </table>
 </div>
+<!-- Form delete course hidden -->
+<form method="POST" name="form-course-delete"></form>
 
-{{!-- Confirm delete course --}}
-<!-- Modal -->
+<!-- Confirm delete course -->
 <div class="modal fade" id="delete-course-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -42,9 +43,30 @@
         <p>Bạn có chắc chắn muốn xóa khóa học này không? </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger">Xóa bỏ</button>
+        <button type="button" id="btn-delete-course" class="btn btn-danger">Xóa bỏ</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
       </div>
     </div>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      
+      var courseId;
+      var formDelete = document.forms['form-course-delete'];
+      var btnDeleteCourse = document.getElementById('btn-delete-course');
+
+      //When dialog confirm clicked
+      $('#delete-course-modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      courseId = button.data('id');
+      });
+
+      //When dialog delete clicked
+      btnDeleteCourse.onclick = function() {
+        formDelete.action = '/courses/' + courseId + '?_method=DELETE';
+        formDelete.submit();
+      };
+    });
+    
+  </script>
 </div>
