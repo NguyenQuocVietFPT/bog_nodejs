@@ -4,7 +4,7 @@ const {multipleMongoToObject} = require('../../util/mongoose');
 class SiteController {
     //[GET] : /
     home(req, res, next) {
-        Course.find({})
+        Course.findWithDeleted({})
                 .then(courses => {
                     res.render('home', {
                         courses : multipleMongoToObject(courses)
