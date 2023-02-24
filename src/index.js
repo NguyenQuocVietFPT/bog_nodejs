@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const path = require('path');
 const port = 3000;
 const app = express();
+const methodOverride = require('method-override');
 const db = require('./config/db');
 
 const routes = require('./routes');
@@ -12,6 +13,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Connect to MongoDB
 db.connect();
+
+// override with POST having ?_method=
+app.use(methodOverride('_method'))
 
 //Get form data from form [BODY]
 app.use(

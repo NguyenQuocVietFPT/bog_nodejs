@@ -29,9 +29,7 @@ class SiteController {
         const course = new Course(formData);
         course.save()
                 .then(() => res.redirect('/'))
-                .catch(err => {
-
-                });
+                .catch(err => {});
     }
 
     //[GET] : /courses/edit/:id
@@ -40,7 +38,7 @@ class SiteController {
                 .then(course => res.render('courses/edit',{
                     course : MongoToObject(course)
                 }))
-                .catch(next) 
+                .catch(next);
         
     }
 
@@ -48,6 +46,13 @@ class SiteController {
     update(req, res, next) {
         Course.updateOne({_id : req.params.id} , req.body)
                 .then(() => res.redirect('/me/stored/courses'))
+                .catch(next)
+    }
+
+    //[DELETE]: /courses/:id
+    destroy(req, res, next) {
+        Course.deleteOne({ _id: req.params.id})
+                .then(() => res.redirect('back'))
                 .catch(next)
     }
 }
