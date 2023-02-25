@@ -42,10 +42,14 @@ class SiteController {
     }
 
     //[PUT] : /courses/:id
-    update(req, res, next) {
-        Course.updateOne({_id : req.params.id} , req.body)
+    update(req, res, next) {        
+        
+        var formData = req.body;
+        formData.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
+        Course.updateOne({_id : req.params.id} , formData)
                 .then(() => res.redirect('/me/stored/courses'))
-                .catch(next)
+                .catch(next);
+
     }
 
     //[DELETE]: /courses/:id
@@ -68,6 +72,39 @@ class SiteController {
                 .then(() => res.redirect('back'))
                 .catch(next)
     }
+
+    //[POST]: /courses/handle-form
+    handleForm(req, res, next) {
+        switch(req.body.action) {
+            case 'delete':
+                Course.delete({ _id: {$in : req.body.courseIds}})
+                    .then(() => res.redirect('back'))
+                    .catch(next)
+                break;
+            default:
+                res.json({message : 'Action is invalid'});
+                break;
+        };        
+    }
+
+    //[POST]: /courses/trash-form
+    trashForm(req, res, next) {        
+        switch(req.body.action) {
+            case 'restore':
+                Course.restore({ _id: {$in : req.body.courseIds}})
+                        .then(() => res.redirect('/me/stored/courses'))
+                        .catch(next)
+                break;                                  
+            case 'delete':
+                Course.deleteMany({ _id: {$in : req.body.courseIds}})
+                    .then(() => res.redirect('/me/stored/courses'))
+                    .catch(next)
+                break;
+            default:
+                res.json({message: "Action is invalid"});
+                break;
+        }        
+    };
 }
 
 module.exports = new SiteController();
