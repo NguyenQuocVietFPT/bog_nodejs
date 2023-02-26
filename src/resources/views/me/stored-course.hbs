@@ -12,16 +12,25 @@
         <option value="">- Hành động -</option>
         <option value="delete">Xóa</option>
       </select>    
-      <button class="btn btn-primary btn-sm disabled btn-check-all-submit">Thực hiện</button>
+      <button class="btn btn-primary btn-sm btn-check-all-submit" disabled>Thực hiện</button>
     </div>      
     <table class="table my-course-table">
       <thead>
         <tr> 
           <th scope="col"></th>
             <th scope="col">#</th>                
-            <th scope="col">Tên khóa học</th>
-            <th scope="col">Trình độ</th>
-            <th scope="col" colspan="2">Thời gian tạo</th>
+            <th scope="col">
+              Tên khóa học
+              {{{sortable 'name' _sort}}}              
+            </th>
+            <th scope="col">
+              Trình độ
+              {{{sortable 'level' _sort}}}
+            </th>
+            <th scope="col" colspan="2">
+              Thời gian tạo
+              {{{sortable 'createdAt' _sort}}}
+            </th>
           </tr>
       </thead>
         <tbody>
@@ -110,21 +119,13 @@
         renderCheckAllBtn();
       });
 
-      //Check all submit btn clicked
-      checkAllBtnSubmit.on('submit' , function(e) {
-        var isSubmittable = !$(this).hasClass('disabled');        
-          if(!isSubmittable) {
-            e.preventDefault();
-          }
-      });
-     
       //Render button submit check all
       function renderCheckAllBtn() {
         var checkedCount = $('input[name="courseIds[]"]:checked').length;        
         if(checkedCount){
-            checkAllBtnSubmit.removeClass('disabled');
+            checkAllBtnSubmit.attr('disabled', false);
         } else {
-          checkAllBtnSubmit.addClass('disabled');
+          checkAllBtnSubmit.attr('disabled', true);
         }
       }
 

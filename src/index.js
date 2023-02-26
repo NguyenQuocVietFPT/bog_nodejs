@@ -6,9 +6,14 @@ const port = 3000;
 const app = express();
 const methodOverride = require('method-override');
 const db = require('./config/db');
+const sortMiddleware = require('./app/middlewares/SortMiddleware');
 
 const routes = require('./routes');
 
+//Custom middleware
+app.use(sortMiddleware);
+
+//Set static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Connect to MongoDB
@@ -31,8 +36,32 @@ app.engine(
     engine({
         extname: '.hbs',
         helpers: {
-           sum: (a,b) => a + b
+           sum: (a,b) => a + b,
+           sortable : (field, sort) => {         
+
+                const sortType = field === sort.name ? sort.type : 'default';
+
+                const icons = {
+                    default : "bi bi-chevron-expand",
+                    asc : "bi bi-sort-down-alt",
+                    desc : "bi bi-sort-down"
+                } ;
+
+                const types = {
+                    default : "desc",
+                    asc : "desc",
+                    desc : "asc"
+                }
+
+                const icon = icons[sortType];
+                const type = types[sortType];
+
+                return `<a href="?_sort&column=${field}&type=${type}">
+                            <span class="${icon}"></span>
+                        </a>`;
+            }
         },
+        
     }),
     
 );
