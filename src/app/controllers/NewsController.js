@@ -8,6 +8,11 @@ class NewsController {
     show(req, res) {
         res.send('NEW DETAIL !!!');
     }
+
+    //[GET] : /news/create
+    create(req, res) {
+        res.send('CREATE NEW !!!');
+    }
 }
 
 module.exports = new NewsController();

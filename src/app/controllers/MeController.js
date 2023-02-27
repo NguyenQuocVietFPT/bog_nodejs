@@ -36,8 +36,16 @@ class MeController {
 
     //[GET] : /me/trash/courses
     trashCourses(req, res, next) {
-        Course.findDeleted({})
-                .then(courses => res.render('me/trash-course', {
+
+        let courseQuery = Course.findDeleted({});
+            
+        if(req.query.hasOwnProperty('_sort')) {
+            courseQuery = courseQuery.sort({
+                [req.query.column] : req.query.type
+            });
+        }
+
+        courseQuery.then(courses => res.render('me/trash-course', {
                     courses : multipleMongoToObject(courses)
                 }))
                 .catch(next)        
