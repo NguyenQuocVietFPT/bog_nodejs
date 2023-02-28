@@ -16,7 +16,7 @@ class MeController {
                 }))
             .catch(next);
     
-    }
+    };
 
     //[GET] : /me/trash/courses
     trashCourses(req, res, next) {
@@ -26,7 +26,7 @@ class MeController {
                     courses : multipleMongoToObject(courses)
                 }))
                 .catch(next)        
-    }
+    };
 }
 
 module.exports = new MeController();

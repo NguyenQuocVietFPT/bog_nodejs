@@ -23,21 +23,22 @@ class SiteController {
 
     //[POST] : /courses/store
     store(req, res, next) {
-        const formData = req.body;
-        formData.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
-        const course = new Course(formData);
-        course.save()
-                .then(() => res.redirect('/me/stored/courses'))
-                .catch(err => {});
+        req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
+        const course = new Course(req.body);
+        course
+            .save()
+            .then(() => res.redirect('/me/stored/courses'))
+            .catch(next);
     }
 
     //[GET] : /courses/edit/:id
     edit(req, res, next) {
-        Course.findById(req.params.id)
-                .then(course => res.render('courses/edit',{
+        Course
+            .findById(req.params.id)
+            .then(course => res.render('courses/edit',{
                     course : MongoToObject(course)
                 }))
-                .catch(next);
+            .catch(next);
         
     }
 

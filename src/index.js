@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 db.connect();
 
 // override with POST having ?_method=
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method'));
 
 //Get form data from form [BODY]
 app.use(
@@ -53,4 +53,4 @@ routes(app);
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)
-  })
+});

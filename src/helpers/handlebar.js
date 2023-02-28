@@ -15,7 +15,7 @@ module.exports =  {
              default : "desc",
              asc : "desc",
              desc : "asc"
-         }
+         };
 
          const icon = icons[sortType];
          const type = types[sortType];
