@@ -23,6 +23,7 @@ class SiteController {
 
     //[POST] : /courses/store
     store(req, res, next) {
+        const formData = req.body;
         req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
         const course = new Course(req.body);
         course
@@ -44,7 +45,7 @@ class SiteController {
 
     //[PUT] : /courses/:id
     update(req, res, next) {        
-        
+
         var formData = req.body;
         formData.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
         Course.updateOne({_id : req.params.id} , formData)
